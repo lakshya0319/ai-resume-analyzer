@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, resumes, InsertResume, analyses, InsertAnalysis } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,48 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+export async function getUserResumes(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(resumes).where(eq(resumes.userId, userId)).orderBy((r) => r.createdAt);
+}
+
+export async function getResumeById(resumeId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(resumes).where(eq(resumes.id, resumeId)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createResume(data: InsertResume) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(resumes).values(data);
+  return result;
+}
+
+export async function getUserAnalyses(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(analyses).where(eq(analyses.userId, userId)).orderBy((a) => a.createdAt);
+}
+
+export async function getAnalysisById(analysisId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(analyses).where(eq(analyses.id, analysisId)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createAnalysis(data: InsertAnalysis) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(analyses).values(data);
+  return result;
+}
+
+export async function getResumeAnalyses(resumeId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(analyses).where(eq(analyses.resumeId, resumeId)).orderBy((a) => a.createdAt);
+}
