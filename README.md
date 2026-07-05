@@ -247,17 +247,6 @@ Contributions are welcome! Please follow these guidelines:
 
 This project is licensed under the MIT License.
 
-## Support
 
-For issues, questions, or feedback, please contact the development team or submit an issue on GitHub.
 
-## Acknowledgments
 
-- Built with [Manus](https://manus.im) — AI-powered development platform
-- UI components from [shadcn/ui](https://ui.shadcn.com)
-- Icons from [Lucide React](https://lucide.dev)
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-
----
-
-**Made with ❤️ for job seekers everywhere**
